@@ -31,7 +31,7 @@ public class BlueRightWithCamera extends LinearOpMode {
     private DcMotor FrontRight = null;
     private DcMotor BackLeft = null;
     private DcMotor BackRight = null;
-    private DcMotor DuckMotor = null;
+    private DcMotorEx DuckMotor = null;
     private Servo servo1;
     private Servo servo2;
     private DcMotorEx flipArmMotor = null;
@@ -57,7 +57,7 @@ public class BlueRightWithCamera extends LinearOpMode {
         FrontRight = hardwareMap.get(DcMotor.class, "FrontRight");
         BackLeft = hardwareMap.get(DcMotor.class, "BackLeft");
         BackRight = hardwareMap.get(DcMotor.class, "BackRight");
-        DuckMotor = hardwareMap.get(DcMotor.class, "duckMotor");
+        DuckMotor = hardwareMap.get(DcMotorEx.class, "duckMotor");
         servo1 = hardwareMap.get(Servo.class, "Servo1");
         servo2 = hardwareMap.get(Servo.class, "Servo2");
         flipArmMotor  = hardwareMap.get(DcMotorEx.class, "FlipArmMotor");
@@ -85,7 +85,12 @@ public class BlueRightWithCamera extends LinearOpMode {
         BackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         flipArmMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         extendoArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        DuckMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        //DuckMotor.setVelocityPIDFCoefficients(1.26, 0.126, 0, 12.6);
+        //DuckMotor.setVelocityPIDFCoefficients(5.1, 0.51, 0, 51);
+        DuckMotor.setVelocityPIDFCoefficients(8, .2 , 0.1, 51);
 
+        DuckMotor.setPositionPIDFCoefficients(5.0);
         FrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         FrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -412,9 +417,9 @@ public class BlueRightWithCamera extends LinearOpMode {
         encoderDrive(.2, -12, 12, 12, -12, 5.0);
 
         while (opModeIsActive() && runtime.seconds() < 5) {
-            DuckMotor.setPower(.30);
+            DuckMotor.setVelocity(165);//Should be negative when on the red side; positive when on the blue side
         }
-        DuckMotor.setPower(0);
+        DuckMotor.setVelocity(0);
         encoderDrive(DRIVE_SPEED, 25, -25, -25, 25, 5.0);
 
     }

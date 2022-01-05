@@ -22,8 +22,8 @@ import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 
-@Autonomous(name="Red Right With Camera", group="StarBots2021")
-public class RedRightWithCamera extends LinearOpMode {
+@Autonomous(name="Duck Spin Test", group="StarBots2021")
+public class DuckSpinTest extends LinearOpMode {
     OpenCvCamera webcam;
     SamplePipeline pipeline;
     private ElapsedTime     runtime = new ElapsedTime();
@@ -88,14 +88,15 @@ public class RedRightWithCamera extends LinearOpMode {
         DuckMotor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         //DuckMotor.setVelocityPIDFCoefficients(1.26, 0.126, 0, 12.6);
         //DuckMotor.setVelocityPIDFCoefficients(5.1, 0.51, 0, 51);
-        DuckMotor.setVelocityPIDFCoefficients(8, .2 , 0.1, 51);
+        DuckMotor.setVelocityPIDFCoefficients(10.2, .2 , 0.1, 51);
 
         DuckMotor.setPositionPIDFCoefficients(5.0);
+
         FrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         FrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        DuckMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        //DuckMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         flipArmMotor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         extendoArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         pipeline = new SamplePipeline();
@@ -130,15 +131,15 @@ public class RedRightWithCamera extends LinearOpMode {
             if (pipeline.getAverage() < 100) {
                 encoderDrive(DRIVE_SPEED, 17.0, 17.0, 17.0, 17.0, 5.0);
                 ArmEncoder(-1, 780, 5.0);
-                encoderDrive(DRIVE_SPEED, -23, 23, 23, -23, 5.0);
                 extendoArmEncoder(-1, -1200, 2.0);
+                encoderDrive(DRIVE_SPEED, 23, -23, -23, 23, 5.0);
                 servo1.setPosition(.55);
                 sleep(500);
-                encoderDrive(DRIVE_SPEED, 5, -5, -5, 5, 5.0);
+                encoderDrive(DRIVE_SPEED, -5, 5, 5, -5, 5.0);
                 encoderDrive(DRIVE_SPEED, -5.0, -5, -5, -5, 5.0);
                 extendoArmEncoder(1, 1200, 2.0);
                 ArmEncoder(1, -780, 5.0);
-                encoderDrive(DRIVE_SPEED, -12, 12, 12, -12, 5.0);
+                encoderDrive(DRIVE_SPEED, 12, -12, -12, 12, 5.0);
                 encoderDrive(DRIVE_SPEED, 4, 4, 4, 4, 5.0);
                 restOfProgram();
                 break;
@@ -146,7 +147,7 @@ public class RedRightWithCamera extends LinearOpMode {
             else if ( pipeline.getAverage2() < 100)
             {
                 encoderDrive(DRIVE_SPEED, 5.0, 5.0, 5.0, 5.0, 5.0);
-                encoderDrive(DRIVE_SPEED, -33, 33, 33, -33, 5.0);
+                encoderDrive(DRIVE_SPEED, 27, -27, -27, 27, 5.0);
                 encoderDrive(.3, 15, 15, 15, 15, 5.0);
 
                 ArmEncoder(-1, 585, 5.0);
@@ -155,10 +156,9 @@ public class RedRightWithCamera extends LinearOpMode {
                 sleep(100);
                 ArmEncoder(.75, -200, 2);
                 encoderDrive(DRIVE_SPEED, -2, -2, -2, -2, 5.0);
-                sleep(100);
                 extendoArmEncoder(1, 3400, 2.0);
                 servo1.setPosition(0);
-                ArmEncoder(.75, -200, 2);
+                ArmEncoder(.3, -300, 2);
                 flipArmMotor.setPower(0);
                 restOfProgram();
                 break;
@@ -166,20 +166,19 @@ public class RedRightWithCamera extends LinearOpMode {
             else {
                 encoderDrive(DRIVE_SPEED, 17.0, 17.0, 17.0, 17.0, 5.0);
                 ArmEncoder(-1, 900, 5.0);
-                encoderDrive(DRIVE_SPEED, -23, 23, 23, -23, 5.0);
                 extendoArmEncoder(-1, -800, 2.0);
+                encoderDrive(DRIVE_SPEED, 23, -23, -23, 23, 5.0);
                 servo1.setPosition(.55);
                 sleep(500);
-                encoderDrive(DRIVE_SPEED, 5, -5, -5, 5, 5.0);
+                encoderDrive(DRIVE_SPEED, -5, 5, 5, -5, 5.0);
                 encoderDrive(DRIVE_SPEED, -5, -5, -5, -5, 5.0);
                 extendoArmEncoder(1, 800, 2.0);
                 ArmEncoder(1, -900, 5.0);
-                encoderDrive(DRIVE_SPEED, -12, 12, 12, -12, 5.0);
+                encoderDrive(DRIVE_SPEED, 12, -12, -12, 12, 5.0);
                 encoderDrive(DRIVE_SPEED, 4, 4, 4, 4, 5.0);
                 restOfProgram();
                 break;
             }
-
         }
     }
 
@@ -278,142 +277,148 @@ public class RedRightWithCamera extends LinearOpMode {
             BACKGROUND, CAPSTONE
         }
     }
-        public void encoderDrive(double speed,
-                                 double FrontLeftInches, double FrontRightInches, double BackLeftInches, double BackRightInches,
-                                 double timeoutS) {
-            int newFrontLeftTarget;
-            int newFrontRightTarget;
-            int newBackLeftTarget;
-            int newBackRightTarget;
+    public void encoderDrive(double speed,
+                             double FrontLeftInches, double FrontRightInches, double BackLeftInches, double BackRightInches,
+                             double timeoutS) {
+        int newFrontLeftTarget;
+        int newFrontRightTarget;
+        int newBackLeftTarget;
+        int newBackRightTarget;
 
-            // Ensure that the opmode is still active
-            if (opModeIsActive()) {
+        // Ensure that the opmode is still active
+        if (opModeIsActive()) {
 
-                // Determine new target position, and pass to motor controller
-                newFrontLeftTarget = FrontLeft.getCurrentPosition() - (int)(FrontLeftInches * COUNTS_PER_INCH);
-                newFrontRightTarget = FrontRight.getCurrentPosition() + (int)(FrontRightInches * COUNTS_PER_INCH);
-                newBackLeftTarget = BackLeft.getCurrentPosition() - (int)(BackLeftInches * COUNTS_PER_INCH);
-                newBackRightTarget = BackRight.getCurrentPosition() + (int)(BackRightInches * COUNTS_PER_INCH);
-                FrontLeft.setTargetPosition(newFrontLeftTarget);
-                FrontRight.setTargetPosition(newFrontRightTarget);
-                BackLeft.setTargetPosition(newBackLeftTarget);
-                BackRight.setTargetPosition(newBackRightTarget);
+            // Determine new target position, and pass to motor controller
+            newFrontLeftTarget = FrontLeft.getCurrentPosition() - (int)(FrontLeftInches * COUNTS_PER_INCH);
+            newFrontRightTarget = FrontRight.getCurrentPosition() + (int)(FrontRightInches * COUNTS_PER_INCH);
+            newBackLeftTarget = BackLeft.getCurrentPosition() - (int)(BackLeftInches * COUNTS_PER_INCH);
+            newBackRightTarget = BackRight.getCurrentPosition() + (int)(BackRightInches * COUNTS_PER_INCH);
+            FrontLeft.setTargetPosition(newFrontLeftTarget);
+            FrontRight.setTargetPosition(newFrontRightTarget);
+            BackLeft.setTargetPosition(newBackLeftTarget);
+            BackRight.setTargetPosition(newBackRightTarget);
 
-                // Turn On RUN_TO_POSITION
-                FrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                FrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-
-                // reset the timeout time and start motion.
-                runtime.reset();
-                FrontLeft.setPower(Math.abs(speed));
-                FrontRight.setPower(Math.abs(speed));
-                BackLeft.setPower(Math.abs(speed));
-                BackRight.setPower(Math.abs(speed));
-
-                // keep looping while we are still active, and there is time left, and both motors are running.
-                // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-                // its target position, the motion will stop.  This is "safer" in the event that the robot will
-                // always end the motion as soon as possible.
-                // However, if you require that BOTH motors have finished their moves before the robot continues
-                // onto the next step, use (isBusy() || isBusy()) in the loop test.
-                while (opModeIsActive() &&
-                        (runtime.seconds() < timeoutS) &&
-                        (FrontLeft.isBusy() && FrontRight.isBusy()&&BackLeft.isBusy()&&BackRight.isBusy())) {
-                    // (leftDrive.isBusy() || rightDrive.isBusy())) {
-                    // Display it for the driver.
-                    telemetry.addData("Path1",  "Running to %7d :%7d: %7d: %7d", newFrontLeftTarget,  newFrontRightTarget, newBackLeftTarget, newBackRightTarget);
-                    telemetry.addData("Path2",  "Running at %7d :%7d: %7d: %7d",
-                            FrontLeft.getCurrentPosition(),
-                            FrontRight.getCurrentPosition(),
-                            BackLeft.getCurrentPosition(),
-                            BackRight.getCurrentPosition());
-                    telemetry.addData("Left", pipeline.getType3());
-                    telemetry.addData("Center", pipeline.getType());
-                    telemetry.addData("Center Average", pipeline.getAverage());
-                    telemetry.addData("Right", pipeline.getType2());
-                    telemetry.addData("Right Average", pipeline.getAverage2());
-                    telemetry.update();
-                }
-
-                // Stop all motion;
-                FrontLeft.setPower(0);
-                FrontRight.setPower(0);
-                BackLeft.setPower(0);
-                BackRight.setPower(0);
-
-                // Turn off RUN_TO_POSITION
-                FrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                FrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                BackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                BackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            // Turn On RUN_TO_POSITION
+            FrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            FrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
-                //  sleep(250);   // optional pause after each move
+            // reset the timeout time and start motion.
+            runtime.reset();
+            FrontLeft.setPower(Math.abs(speed));
+            FrontRight.setPower(Math.abs(speed));
+            BackLeft.setPower(Math.abs(speed));
+            BackRight.setPower(Math.abs(speed));
+
+            // keep looping while we are still active, and there is time left, and both motors are running.
+            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
+            // its target position, the motion will stop.  This is "safer" in the event that the robot will
+            // always end the motion as soon as possible.
+            // However, if you require that BOTH motors have finished their moves before the robot continues
+            // onto the next step, use (isBusy() || isBusy()) in the loop test.
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutS) &&
+                    (FrontLeft.isBusy() && FrontRight.isBusy()&&BackLeft.isBusy()&&BackRight.isBusy())) {
+                // (leftDrive.isBusy() || rightDrive.isBusy())) {
+                // Display it for the driver.
+                telemetry.addData("Path1",  "Running to %7d :%7d: %7d: %7d", newFrontLeftTarget,  newFrontRightTarget, newBackLeftTarget, newBackRightTarget);
+                telemetry.addData("Path2",  "Running at %7d :%7d: %7d: %7d",
+                        FrontLeft.getCurrentPosition(),
+                        FrontRight.getCurrentPosition(),
+                        BackLeft.getCurrentPosition(),
+                        BackRight.getCurrentPosition());
+                telemetry.addData("Left", pipeline.getType3());
+                telemetry.addData("Center", pipeline.getType());
+                telemetry.addData("Center Average", pipeline.getAverage());
+                telemetry.addData("Right", pipeline.getType2());
+                telemetry.addData("Right Average", pipeline.getAverage2());
+                telemetry.update();
             }
+
+            // Stop all motion;
+            FrontLeft.setPower(0);
+            FrontRight.setPower(0);
+            BackLeft.setPower(0);
+            BackRight.setPower(0);
+
+            // Turn off RUN_TO_POSITION
+            FrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            FrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            BackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            BackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+            //  sleep(250);   // optional pause after each move
         }
-        public void ArmEncoder(double ArmFlipPower, double ArmTravelLength, double timeoutSA) {
+    }
+    public void ArmEncoder(double ArmFlipPower, double ArmTravelLength, double timeoutSA) {
 
-            int newArmTarget;
+        int newArmTarget;
 
-            if (opModeIsActive()) {
-                newArmTarget = flipArmMotor.getCurrentPosition() + (int)(ArmTravelLength);
-                flipArmMotor.setTargetPosition(newArmTarget);
-                flipArmMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-                runtime.reset();
-                flipArmMotor.setVelocity(ArmFlipPower*600);
-
-
-                while (opModeIsActive() &&
-                        (runtime.seconds() < timeoutSA) &&(flipArmMotor.isBusy())) {
-                    // Display it for the driver.
-                    telemetry.addData("flpArmMotorPosition", "Running at %7d ", flipArmMotor.getCurrentPosition());
-                    telemetry.update();
-                }
+        if (opModeIsActive()) {
+            newArmTarget = flipArmMotor.getCurrentPosition() + (int)(ArmTravelLength);
+            flipArmMotor.setTargetPosition(newArmTarget);
+            flipArmMotor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+            runtime.reset();
+            flipArmMotor.setVelocity(ArmFlipPower*600);
 
 
-
-                // Turn off RUN_TO_POSITION
-
-                sleep(250);
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutSA) &&(flipArmMotor.isBusy())) {
+                // Display it for the driver.
+                telemetry.addData("flpArmMotorPosition", "Running at %7d ", flipArmMotor.getCurrentPosition());
+                telemetry.update();
             }
+
+
+
+            // Turn off RUN_TO_POSITION
+
+            sleep(250);
         }
-        public void extendoArmEncoder(double extendoArmPower, double extendoArmTravel, double timeoutSE) {
+    }
+    public void extendoArmEncoder(double extendoArmPower, double extendoArmTravel, double timeoutSE) {
 
-            int newExtendoArmTarget;
+        int newExtendoArmTarget;
 
-            if (opModeIsActive()) {
-                newExtendoArmTarget = extendoArmMotor.getCurrentPosition() + (int)(extendoArmTravel);
-                extendoArmMotor.setTargetPosition(newExtendoArmTarget);
-                extendoArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                runtime.reset();
-                extendoArmMotor.setPower(extendoArmPower);
+        if (opModeIsActive()) {
+            newExtendoArmTarget = extendoArmMotor.getCurrentPosition() + (int)(extendoArmTravel);
+            extendoArmMotor.setTargetPosition(newExtendoArmTarget);
+            extendoArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            runtime.reset();
+            extendoArmMotor.setPower(extendoArmPower);
 
-                while (opModeIsActive() &&
-                        (runtime.seconds() < timeoutSE) &&(extendoArmMotor.isBusy())) {
-                    // Display it for the driver.
-                    telemetry.addData("extendoArmMotorPosition", "Running at %7d ", extendoArmMotor.getCurrentPosition());
-                    telemetry.update();
-                }
-
-                extendoArmMotor.setPower(0);
-
-                // Turn off RUN_TO_POSITION
-                extendoArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-                sleep(250);
+            while (opModeIsActive() &&
+                    (runtime.seconds() < timeoutSE) &&(extendoArmMotor.isBusy())) {
+                // Display it for the driver.
+                telemetry.addData("extendoArmMotorPosition", "Running at %7d ", extendoArmMotor.getCurrentPosition());
+                telemetry.update();
             }
-        }
-        public void restOfProgram() {
-            encoderDrive(DRIVE_SPEED, -68, 68.0, 68.0, -68.0, 5.0);
-            encoderDrive(.2, -5, -5, -5, -5, 5.0);
-            while (opModeIsActive() && runtime.seconds() < 5) {
-                DuckMotor.setVelocity(-165);//Should be negative when on the red side; positive when on the blue side
-            }
-            DuckMotor.setVelocity(0);
-            encoderDrive(DRIVE_SPEED, 18.5, 18.5, 18.5, 18.5, 7.0);
 
+            extendoArmMotor.setPower(0);
+
+            // Turn off RUN_TO_POSITION
+            extendoArmMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            sleep(250);
         }
+    }
+    public void restOfProgram() {
+        encoderDrive(DRIVE_SPEED, -68, 68.0, 68.0, -68.0, 5.0);
+        encoderDrive(.2, -5, -5, -5, -5, 5.0);
+
+
+
+        while (opModeIsActive() && runtime.seconds() < 5) {
+            DuckMotor.setVelocity(-170);//Should be negative when on the red side; positive when on the blue side
+        }
+        DuckMotor.setVelocity(0);
+
+
+        //To go directly to loading zone
+        encoderDrive(DRIVE_SPEED, 18.5, 18.5, 18.5, 18.5, 5.0);
+
+    }
 }
