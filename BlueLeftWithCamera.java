@@ -126,7 +126,7 @@ public class BlueLeftWithCamera extends LinearOpMode {
             telemetry.addData("Right", pipeline.getType2());
             telemetry.addData("Right Average", pipeline.getAverage2());
             telemetry.update();
-            sleep(3500);
+            sleep(2500);
             if (pipeline.getAverage() < 100) {
                 encoderDrive(DRIVE_SPEED, 17.0, 17.0, 17.0, 17.0, 5.0);
                 ArmEncoder(-1, 780, 5.0);
@@ -156,7 +156,6 @@ public class BlueLeftWithCamera extends LinearOpMode {
                 ArmEncoder(.75, -200, 2);
                 encoderDrive(DRIVE_SPEED, -2, -2, -2, -2, 5.0);
                 extendoArmEncoder(1, 3400, 2.0);
-                servo1.setPosition(0);
                 ArmEncoder(.3, -300, 2);
                 flipArmMotor.setPower(0);
                 restOfProgram();
@@ -406,20 +405,19 @@ public class BlueLeftWithCamera extends LinearOpMode {
         }
     }
     public void restOfProgram() {
-        encoderDrive(DRIVE_SPEED, 70, -70, -70, 70, 5.0);
+        servo1.setPosition(0);
+        /*encoderDrive(DRIVE_SPEED, 70, -70, -70, 70, 5.0);
         encoderDrive(DRIVE_SPEED, -24, 24, -24, 24, 5.0);
         encoderDrive(.2, -2, -2, -2, -2, 5.0);
-        /*while (opModeIsActive() && runtime.seconds() < 1) {
-            DuckMotor.setPower(-.80);
-         }
-        encoderDriveWithDuck(.2, -11.5, 11.5, 11.5, -11.5, .40, 20);*/
-        encoderDrive(.2, -12, 12, 12, -12, 5.0);
 
-        while (opModeIsActive() && runtime.seconds() < 5) {
-            DuckMotor.setVelocity(165);//Should be negative when on the red side; positive when on the blue side
+        encoderDrive(.2, -13, 13, 13, -13, 5.0);
+        encoderDrive(.5, 2, -2, 2, -2, 5.0);
+        while (opModeIsActive() && runtime.seconds() < 6) {
+            DuckMotor.setVelocity(170);//Should be negative when on the red side; positive when on the blue side
         }
         DuckMotor.setVelocity(0);
-        encoderDrive(DRIVE_SPEED, 25, -25, -25, 25, 5.0);
-
+        encoderDrive(DRIVE_SPEED, 25, -25, -25, 25, 5.0);*/
+        encoderDrive(DRIVE_SPEED, -24, 24, -24, 24, 5.0);
+        encoderDrive(DRIVE_SPEED, 70, 70, 70, 70, 5.0);
     }
 }

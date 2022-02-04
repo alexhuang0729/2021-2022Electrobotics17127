@@ -127,7 +127,7 @@ public class RedLeftWithCamera extends LinearOpMode {
             telemetry.addData("Right", pipeline.getType2());
             telemetry.addData("Right Average", pipeline.getAverage2());
             telemetry.update();
-            sleep(3500);
+            sleep(2500);
             if (pipeline.getAverage() < 100) {
                 encoderDrive(DRIVE_SPEED, 17.0, 17.0, 17.0, 17.0, 5.0);
                 ArmEncoder(-1, 780, 5.0);
@@ -406,13 +406,14 @@ public class RedLeftWithCamera extends LinearOpMode {
         }
     }
     public void restOfProgram() {
+        servo1.setPosition(0);
         encoderDrive(DRIVE_SPEED, -68, 68.0, 68.0, -68.0, 5.0);
-        encoderDrive(.2, -5, -5, -5, -5, 5.0);
+        encoderDrive(.2, -7, -7, -7, -7, 5.0);
 
 
 
-        while (opModeIsActive() && runtime.seconds() < 5) {
-            DuckMotor.setVelocity(-165);//Should be negative when on the red side; positive when on the blue side
+        while (opModeIsActive() && runtime.seconds() < 6) {
+            DuckMotor.setVelocity(-170);//Should be negative when on the red side; positive when on the blue side
         }
         DuckMotor.setVelocity(0);
 
